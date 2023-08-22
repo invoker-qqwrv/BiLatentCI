@@ -1,1 +1,7 @@
-
+keras                     2.12.0                   pypi_0    pypi
+librosa                   0.10.0.post2             pypi_0    pypi
+matplotlib                3.7.1                    pypi_0    pypi
+numpy                     1.23.5                   pypi_0    pypi
+tensorflow                2.12.0                   pypi_0    pypi
+tqdm                      4.65.0                   pypi_0    pypi
+scipy                     1.10.1                   pypi_0    pypi
