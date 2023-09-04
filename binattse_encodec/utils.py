@@ -31,7 +31,7 @@ def setup():
 
     parser.add_argument('-top', '--topology', type=str, default = "Double_attention")
 
-    parser.add_argument('-mo', '--mode', type=str, default='predict')
+    parser.add_argument('-mo', '--mode', type=str, default='KW')
 
     parser.add_argument('-gpu',  '--GPU', type=bool, default = False)
 
@@ -123,6 +123,7 @@ class SISDR(tf.keras.losses.Loss):
 
         sdr = calc_snr(y_pred, y_true)
         return tf.reduce_mean(-sdr)
+
 def pad_and_separate(inp, args, model):
     inp=np.array(inp)
     original_length = inp[0].shape[-1]
@@ -372,7 +373,7 @@ def run_optimization_and_plot():
     clean_folder_path = 'data/test'
     noisy_folder_path = 'audio'
     logpath = 'results/result.txt'
-    savepath = 'results/model_best.h5'
+    savepath = 'models/model_best.h5'
     output_file_path = 'output.txt'
     with open(output_file_path, 'w') as f:
 
