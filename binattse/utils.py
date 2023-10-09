@@ -183,6 +183,8 @@ def load_and_evaluate_model(args, model_dir, model_path, model_time_stamp, mode)
     log_evaluation_excel(model_dir, model_time_stamp, args, test_snr, snr_left, snr_right, model)
 
     save_path = os.path.join(model_dir, "audio")
+    if not os.path.exists('audio'):
+        os.makedirs('audio')
     test_ds = DataGenerator("test", args).fetch()
     model.compile(loss=loss)
 
@@ -497,7 +499,7 @@ def kieferWolfowitz(steps, clean_folder_path, noisy_folder_path, savepath,
     if savepath:
         model.set_weights(best_weights)
         model.save_weights(savepath)
-        np.savetxt("best_mbstoi.txt", [best_mbstoi], fmt='%.6f')
+        np.savetxt("results/best_mbstoi.txt", [best_mbstoi], fmt='%.6f')
 
     return results
 
@@ -518,6 +520,9 @@ def run_optimization_and_plot():
     noisy_folder_path = 'audio'
     logpath = 'results/result.txt'
     savepath = 'results/model_best.h5'
+    if not os.path.exists('results'):
+        os.makedirs('results')
+    
     output_file_path = 'results/KW_process.txt'
     with open(output_file_path, 'w') as f:
 
