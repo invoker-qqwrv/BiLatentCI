@@ -47,12 +47,11 @@ def computeMBSTOI(clean_folder_path, noisy_folder_path):
         print(mbstoi_score)
         total_mbstoi += mbstoi_score
     results_folder_path = "results"
+    if not os.path.exists('results'):
+        os.makedirs('results')
     average_mbstoi = total_mbstoi / num_files
     print("average_mbstoi:", average_mbstoi)
 
-    # np.savetxt("average_mbstoi.txt", [average_mbstoi], fmt='%.6f')
-    # result_file_path = os.path.join(results_folder_path, "mbstoi.txt")
-    # np.savetxt(result_file_path, [average_mbstoi], fmt='%.6f')
 
     return average_mbstoi
 
@@ -61,17 +60,12 @@ def computeMBSTOI(clean_folder_path, noisy_folder_path):
 if __name__ == "__main__":
     clean_folder_path = "data/test"
     noisy_folder_path = "audio"
+    
     average_mbstoi_first = computeMBSTOI(clean_folder_path, noisy_folder_path)
 
-    # Generate a timestamp string
+  
     timestamp = time.strftime("%Y%m%d%H%M%S")
 
     result_file_path = os.path.join("results", f"mbstoi_{timestamp}.txt")
     np.savetxt(result_file_path, [average_mbstoi_first], fmt='%.6f')    #
-    #
-    # noisy_folder_path_fixed = "results/audio"
-    # average_mbstoi_fixed = computeMBSTOI(clean_folder_path, noisy_folder_path_fixed)
-    #
-    #
-    # result_file_path_fixed = os.path.join("results", "mbstoi_fixed.txt")
-    # np.savetxt(result_file_path_fixed, [average_mbstoi_fixed], fmt='%.6f')
+   
