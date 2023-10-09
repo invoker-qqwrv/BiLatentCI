@@ -341,7 +341,7 @@ class Model():
                 masked_right = self.masker_right(kernel2, enc_inp_r)
 
 
-            elif self.model_mode == 'back_fusion':
+            elif self.model_mode == 'binaural_fusion':
                 kernel1 = self.attention2([enc_inp_l, enc_inp_r])
                 skp_l = self.TCN_left(kernel1)
                 skp_r = self.TCN_right(kernel1)
