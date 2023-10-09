@@ -1,1 +1,13 @@
+The requirements.txt file contains all the libraries required for this project. 
+Running condasetup.slurm will create an environment named "clarity5."
 
+This project consists of five distinct parts: diffmode, binattse, binattse_vq, and binattse_encodec,
+binattse_encodecvq. Each folder represents a completely independent section that can be run separately.
+
+diffmode: This section represents models with different modes, including independent, backfusion, frontfusion, and binaural fusion. 
+
+binattse and binattse_encodec: These sections represent models without vector quantization.
+
+binattse_vq and binattse_encodecvq: These sections represent models that include vector quantizers.
+
+Each folder contains an additional readme file that provides a more detailed explanation of the respective model.
