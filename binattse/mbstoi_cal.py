@@ -79,5 +79,5 @@ if __name__ == "__main__":
     average_mbstoi_fixed = computeMBSTOI(clean_folder_path, noisy_folder_path_fixed)
 
     
-    result_file_path_fixed = os.path.join("results", "mbstoi_fixed.txt")
+    result_file_path_fixed = os.path.join("results", "mbstoi_kw.txt")
     np.savetxt(result_file_path_fixed, [average_mbstoi_fixed], fmt='%.6f')
