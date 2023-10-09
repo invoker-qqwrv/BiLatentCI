@@ -1,5 +1,5 @@
 
-In this folder, running binattse.slurm will generate models under different fusion modes
+In this folder, running diffmode.slurm will generate models under different fusion modes
 and  then  evaluate the model's output results using the mbstoi metric. These four fusion
 modes are independent, front fusion, back fusion, and binaural fusion. All results are based
 on the state before hearing loss simulation.
