@@ -195,7 +195,7 @@ def evaluate_test(args):
         log_evaluation_excel(model_dir, model_time_stamp, args, test_snr, snr_left, snr_right, model)
 
         # Evaluate for different quantization bits
-        bits = [3, 4, 5]
+        bits = [3, 4]
         for b in bits:
             print("Evaluating model with quantization bit =", b)
 
@@ -236,7 +236,7 @@ def evaluate_results_models():
         print("Mean SI-SDR: {:.2f} dB".format(test_snr))
 
        
-        bits = [3, 4, 5]
+        bits = [3, 4]
         for b in bits:
             print("Evaluating model with quantization bit =", b)
 
