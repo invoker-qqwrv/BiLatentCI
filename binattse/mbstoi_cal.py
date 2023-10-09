@@ -47,6 +47,8 @@ def computeMBSTOI(clean_folder_path, noisy_folder_path):
         print(mbstoi_score)
         total_mbstoi += mbstoi_score
     results_folder_path = "results"
+    if not os.path.exists('results'):
+        os.makedirs('results')
     average_mbstoi = total_mbstoi / num_files
     print("average_mbstoi:", average_mbstoi)
 
@@ -57,16 +59,6 @@ def computeMBSTOI(clean_folder_path, noisy_folder_path):
     return average_mbstoi
 
 
-# clean_folder_path = "data/test"
-# models_folder_path = "models"
-# model_subfolders = [folder for folder in os.listdir(models_folder_path) if os.path.isdir(os.path.join(models_folder_path, folder))]
-#
-# if model_subfolders:
-#
-#     first_model_subfolder = model_subfolders[0]
-#     noisy_folder_path = os.path.join(models_folder_path, first_model_subfolder, "audio")
-#     computeMBSTOI(clean_folder_path, noisy_folder_path)
-#
 
 if __name__ == "__main__":
     clean_folder_path = "data/test"
@@ -74,19 +66,18 @@ if __name__ == "__main__":
     model_subfolders = [folder for folder in os.listdir(models_folder_path) if os.path.isdir(os.path.join(models_folder_path, folder))]
 
     if model_subfolders:
-        # First part (using the first model subfolder's noisy_folder_path)
+        
         first_model_subfolder = model_subfolders[0]
         noisy_folder_path = os.path.join(models_folder_path, first_model_subfolder, "audio")
         average_mbstoi_first = computeMBSTOI(clean_folder_path, noisy_folder_path)
 
-        # Save the result to a file with a specific name
         result_file_path = os.path.join("results", f"mbstoi_{first_model_subfolder}.txt")
         np.savetxt(result_file_path, [average_mbstoi_first], fmt='%.6f')
 
-    # Second part (with a fixed noisy_folder_path as "results/audio")
+   
     noisy_folder_path_fixed = "results/audio"
     average_mbstoi_fixed = computeMBSTOI(clean_folder_path, noisy_folder_path_fixed)
 
-    # Save the result to a file with a specific name
+    
     result_file_path_fixed = os.path.join("results", "mbstoi_fixed.txt")
     np.savetxt(result_file_path_fixed, [average_mbstoi_fixed], fmt='%.6f')
