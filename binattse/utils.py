@@ -40,7 +40,7 @@ def setup():
 
     parser.add_argument('-mo', '--mode', type=str, default='train')
 
-    parser.add_argument('-gpu',  '--GPU', type=bool, default = False)
+    parser.add_argument('-gpu',  '--GPU', type=bool, default = True)
 
     parser.add_argument('-lr', '--learning_rate', type=float, default=1e-3)
     parser.add_argument('-ld', '--model_dir', type=str, default='./models')
