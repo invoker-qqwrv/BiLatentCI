@@ -1,1 +1,4 @@
 
+Running binattsevq.slurm will first train the binaural attention model and the vector quantizers, and then evaluate the output audios using MBSTOI. 
+Following that, the Kiefer-Wolfowitz algorithm will be executed to fine-tune the gradients of the model based on MBSTOI metric. 
+Finally, it will make predictions on audio using the refined model and evaluate the predicted audio using MBSTOI.
