@@ -1,1 +1,8 @@
+After running the binattse.slurm, a series function will be implemented. It begins with the training of binaural attention model, 
+followed by MBSTOI scoring to evaluate its performance. 
 
+The Kiefer-Wolfowitz(KW) algorithm is then employed to approximate gradients based 
+on MBSTOI function. Subsequently, the model's output is assessed with MBSTOI again after KW-algorithm. 
+
+Finally,Hearing loss simulation is performed on the model's output and MBSTOI is used to evaluate audio after hearing loss simulation.
+All results are saved in folder "resluts"
