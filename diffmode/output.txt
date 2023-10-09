@@ -1,0 +1,414 @@
+cc1g02.tnt.uni-hannover.de
+cc1g02.tnt.uni-hannover.de
+2023-09-21 03:00:27.204257: I tensorflow/core/util/port.cc:110] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+2023-09-21 03:00:27.204257: I tensorflow/core/util/port.cc:110] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+2023-09-21 03:00:27.285611: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F AVX512_VNNI FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2023-09-21 03:00:27.285610: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F AVX512_VNNI FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2023-09-21 03:00:29.533925: W tensorflow/compiler/tf2tensorrt/utils/py_utils.cc:38] TF-TRT Warning: Could not find TensorRT
+2023-09-21 03:00:29.533925: W tensorflow/compiler/tf2tensorrt/utils/py_utils.cc:38] TF-TRT Warning: Could not find TensorRT
+2023-09-21 03:00:36.154387: W tensorflow/core/common_runtime/gpu/gpu_bfc_allocator.cc:47] Overriding orig_value setting because the TF_FORCE_GPU_ALLOW_GROWTH environment variable is set. Original config value was 0.
+2023-09-21 03:00:36.154579: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1635] Created device /job:localhost/replica:0/task:0/device:GPU:0 with 9226 MB memory:  -> device: 0, name: NVIDIA GeForce RTX 2080 Ti, pci bus id: 0000:3e:00.0, compute capability: 7.5
+2023-09-21 03:00:36.157663: W tensorflow/core/common_runtime/gpu/gpu_bfc_allocator.cc:47] Overriding orig_value setting because the TF_FORCE_GPU_ALLOW_GROWTH environment variable is set. Original config value was 0.
+2023-09-21 03:00:36.157792: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1635] Created device /job:localhost/replica:0/task:0/device:GPU:0 with 9226 MB memory:  -> device: 0, name: NVIDIA GeForce RTX 2080 Ti, pci bus id: 0000:3e:00.0, compute capability: 7.5
+Namespace(topology='Double_attention', mode='train', model_mode='independent', GPU=False, learning_rate=0.001, model_dir='./models', data_dir='./data', sample_rate=8000, causal=True, max_epoch=3, batch_size=2, skip=True, duration=4, compress=1, n_filters=64, n_residual_layers=1, ratios=[4, 4, 2], dilation_rate=2, kernel_size=3, last_kernel_size=3, residual_kernel_size=3, true_skip=False, padding='same', N=64, L=16, B=64, H=64, S=512, P=128, X=2, R=2)
+Traceback (most recent call last):
+  File "/home/wangxiao/tmp/binattse_diff_mode/main.py", line 169, in <module>
+    main()
+  File "/home/wangxiao/tmp/binattse_diff_mode/main.py", line 160, in main
+    train(args)
+  File "/home/wangxiao/tmp/binattse_diff_mode/main.py", line 33, in train
+    os.makedirs(model_dir)
+  File "/home/wangxiao/tmp/miniconda3/envs/clarity5/lib/python3.9/os.py", line 225, in makedirs
+    mkdir(name, mode)
+FileExistsError: [Errno 17] File exists: './models/Double_attention_model[21-09-2023_03-00-34]'
+/home/wangxiao/tmp/miniconda3/envs/clarity5/lib/python3.9/site-packages/keras/initializers/initializers.py:120: UserWarning: The initializer GlorotNormal is unseeded and being called multiple times, which will return identical values each time (even if the initializer is unseeded). Please update your code to provide a seed to the initializer, or avoid using the same initalizer instance more than once.
+  warnings.warn(
+srun: error: cc1g02: task 0: Exited with exit code 1
+Namespace(topology='Double_attention', mode='train', model_mode='independent', GPU=False, learning_rate=0.001, model_dir='./models', data_dir='./data', sample_rate=8000, causal=True, max_epoch=3, batch_size=2, skip=True, duration=4, compress=1, n_filters=64, n_residual_layers=1, ratios=[4, 4, 2], dilation_rate=2, kernel_size=3, last_kernel_size=3, residual_kernel_size=3, true_skip=False, padding='same', N=64, L=16, B=64, H=64, S=512, P=128, X=2, R=2)
+
+Using GPU... 
+
+Model: "Double_attention_auto_encoder"
+__________________________________________________________________________________________________
+ Layer (type)                   Output Shape         Param #     Connected to                     
+==================================================================================================
+ Input_left (InputLayer)        [(None, None)]       0           []                               
+                                                                                                  
+ Input_right (InputLayer)       [(None, None)]       0           []                               
+                                                                                                  
+ Encoder_left (Encoder)         (None, None, 64)     1088        ['Input_left[0][0]']             
+                                                                                                  
+ Encoder_right (Encoder)        (None, None, 64)     1088        ['Input_right[0][0]']            
+                                                                                                  
+ TCN_left (TCN)                 (None, 3999, 512)    171456      ['Encoder_left[0][0]']           
+                                                                                                  
+ TCN_right (TCN)                (None, 3999, 512)    171456      ['Encoder_right[0][0]']          
+                                                                                                  
+ Masker_left (Masker)           (None, 3999, 64)     33344       ['TCN_left[0][0]',               
+                                                                  'Encoder_left[0][0]']           
+                                                                                                  
+ Masker_right (Masker)          (None, 3999, 64)     33344       ['TCN_right[0][0]',              
+                                                                  'Encoder_right[0][0]']          
+                                                                                                  
+ Decoder_left (Decoder)         (None, 32000)        1024        ['Masker_left[0][0]']            
+                                                                                                  
+ Decoder_right (Decoder)        (None, 32000)        1024        ['Masker_right[0][0]']           
+                                                                                                  
+==================================================================================================
+Total params: 413,824
+Trainable params: 413,824
+Non-trainable params: 0
+__________________________________________________________________________________________________
+2023-09-21 03:00:37.722828: I tensorflow/core/common_runtime/executor.cc:1197] [/device:CPU:0] (DEBUG INFO) Executor start aborting (this does not indicate an error and you can ignore this message): INVALID_ARGUMENT: You must feed a value for placeholder tensor 'Placeholder/_0' with dtype string and shape [1]
+	 [[{{node Placeholder/_0}}]]
+2023-09-21 03:00:37.723089: I tensorflow/core/common_runtime/executor.cc:1197] [/device:CPU:0] (DEBUG INFO) Executor start aborting (this does not indicate an error and you can ignore this message): INVALID_ARGUMENT: You must feed a value for placeholder tensor 'Placeholder/_0' with dtype string and shape [1]
+	 [[{{node Placeholder/_0}}]]
+Epoch 1/3
+WARNING:tensorflow:Gradients do not exist for variables ['TCN_left_35/res_1x1_conv_35/kernel:0', 'TCN_left_36/res_1x1_conv_36/bias:0', 'TCN_right_75/res_1x1_conv_75/kernel:0', 'TCN_right_76/res_1x1_conv_76/bias:0'] when minimizing the loss. If you're using `model.compile()`, did you forget to provide a `loss` argument?
+WARNING:tensorflow:Gradients do not exist for variables ['TCN_left_35/res_1x1_conv_35/kernel:0', 'TCN_left_36/res_1x1_conv_36/bias:0', 'TCN_right_75/res_1x1_conv_75/kernel:0', 'TCN_right_76/res_1x1_conv_76/bias:0'] when minimizing the loss. If you're using `model.compile()`, did you forget to provide a `loss` argument?
+WARNING:tensorflow:Gradients do not exist for variables ['TCN_left_35/res_1x1_conv_35/kernel:0', 'TCN_left_36/res_1x1_conv_36/bias:0', 'TCN_right_75/res_1x1_conv_75/kernel:0', 'TCN_right_76/res_1x1_conv_76/bias:0'] when minimizing the loss. If you're using `model.compile()`, did you forget to provide a `loss` argument?
+WARNING:tensorflow:Gradients do not exist for variables ['TCN_left_35/res_1x1_conv_35/kernel:0', 'TCN_left_36/res_1x1_conv_36/bias:0', 'TCN_right_75/res_1x1_conv_75/kernel:0', 'TCN_right_76/res_1x1_conv_76/bias:0'] when minimizing the loss. If you're using `model.compile()`, did you forget to provide a `loss` argument?
+2023-09-21 03:00:45.252175: I tensorflow/compiler/xla/stream_executor/cuda/cuda_dnn.cc:424] Loaded cuDNN version 8902
+2023-09-21 03:00:46.084613: I tensorflow/tsl/platform/default/subprocess.cc:304] Start cannot spawn child process: No such file or directory
+2023-09-21 03:00:47.023035: I tensorflow/compiler/xla/service/service.cc:169] XLA service 0x7f67aa049da0 initialized for platform CUDA (this does not guarantee that XLA will be used). Devices:
+2023-09-21 03:00:47.023071: I tensorflow/compiler/xla/service/service.cc:177]   StreamExecutor device (0): NVIDIA GeForce RTX 2080 Ti, Compute Capability 7.5
+2023-09-21 03:00:47.027294: I tensorflow/compiler/mlir/tensorflow/utils/dump_mlir_util.cc:269] disabling MLIR crash reproducer, set env var `MLIR_CRASH_REPRODUCER_DIRECTORY` to enable.
+2023-09-21 03:00:47.096804: I tensorflow/tsl/platform/default/subprocess.cc:304] Start cannot spawn child process: No such file or directory
+2023-09-21 03:00:47.150877: I ./tensorflow/compiler/jit/device_compiler.h:180] Compiled cluster using XLA!  This line is logged at most once for the lifetime of the process.
+2023-09-21 03:00:55.287395: I tensorflow/core/common_runtime/executor.cc:1197] [/device:CPU:0] (DEBUG INFO) Executor start aborting (this does not indicate an error and you can ignore this message): INVALID_ARGUMENT: You must feed a value for placeholder tensor 'Placeholder/_0' with dtype string and shape [1]
+	 [[{{node Placeholder/_0}}]]
+2023-09-21 03:00:55.287639: I tensorflow/core/common_runtime/executor.cc:1197] [/device:CPU:0] (DEBUG INFO) Executor start aborting (this does not indicate an error and you can ignore this message): INVALID_ARGUMENT: You must feed a value for placeholder tensor 'Placeholder/_0' with dtype string and shape [1]
+	 [[{{node Placeholder/_0}}]]
+      1/Unknown - 17s 17s/step - loss: 46.2469 - Decoder_left_loss: 18.6702 - Decoder_right_loss: 27.5767      4/Unknown - 17s 22ms/step - loss: 32.6245 - Decoder_left_loss: 14.3600 - Decoder_right_loss: 18.2644      7/Unknown - 17s 21ms/step - loss: 28.6809 - Decoder_left_loss: 13.1544 - Decoder_right_loss: 15.5265     10/Unknown - 17s 22ms/step - loss: 25.4266 - Decoder_left_loss: 11.5861 - Decoder_right_loss: 13.8404     13/Unknown - 17s 21ms/step - loss: 23.2071 - Decoder_left_loss: 10.4340 - Decoder_right_loss: 12.773115/15 [==============================] - 19s 125ms/step - loss: 21.8413 - Decoder_left_loss: 10.0246 - Decoder_right_loss: 11.8166 - val_loss: 23.4828 - val_Decoder_left_loss: 11.7703 - val_Decoder_right_loss: 11.7125 - lr: 0.0010
+Epoch 2/3
+ 1/15 [=>............................] - ETA: 0s - loss: 18.7317 - Decoder_left_loss: 9.5143 - Decoder_right_loss: 9.2175 4/15 [=======>......................] - ETA: 0s - loss: 19.4273 - Decoder_left_loss: 8.7958 - Decoder_right_loss: 10.6315 7/15 [=============>................] - ETA: 0s - loss: 12.2329 - Decoder_left_loss: 5.4882 - Decoder_right_loss: 6.7448 10/15 [===================>..........] - ETA: 0s - loss: 12.6617 - Decoder_left_loss: 5.8393 - Decoder_right_loss: 6.822413/15 [=========================>....] - ETA: 0s - loss: 13.6407 - Decoder_left_loss: 6.3009 - Decoder_right_loss: 7.339915/15 [==============================] - 1s 59ms/step - loss: 13.8619 - Decoder_left_loss: 6.5189 - Decoder_right_loss: 7.3429 - val_loss: 21.9765 - val_Decoder_left_loss: 11.0261 - val_Decoder_right_loss: 10.9504 - lr: 0.0010
+Epoch 3/3
+ 1/15 [=>............................] - ETA: 0s - loss: 10.5589 - Decoder_left_loss: 7.5906 - Decoder_right_loss: 2.9683 4/15 [=======>......................] - ETA: 0s - loss: 18.9359 - Decoder_left_loss: 9.4076 - Decoder_right_loss: 9.5283 7/15 [=============>................] - ETA: 0s - loss: 16.1715 - Decoder_left_loss: 8.0637 - Decoder_right_loss: 8.107810/15 [===================>..........] - ETA: 0s - loss: 16.9020 - Decoder_left_loss: 8.2947 - Decoder_right_loss: 8.607313/15 [=========================>....] - ETA: 0s - loss: 14.2080 - Decoder_left_loss: 6.7997 - Decoder_right_loss: 7.408315/15 [==============================] - 1s 43ms/step - loss: 12.9252 - Decoder_left_loss: 6.1244 - Decoder_right_loss: 6.8008 - val_loss: 21.2062 - val_Decoder_left_loss: 10.9280 - val_Decoder_right_loss: 10.2782 - lr: 0.0010
+2023-09-21 03:01:09.630411: I tensorflow/core/util/port.cc:110] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+2023-09-21 03:01:09.630411: I tensorflow/core/util/port.cc:110] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+2023-09-21 03:01:09.696148: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F AVX512_VNNI FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2023-09-21 03:01:09.696151: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F AVX512_VNNI FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2023-09-21 03:01:10.741093: W tensorflow/compiler/tf2tensorrt/utils/py_utils.cc:38] TF-TRT Warning: Could not find TensorRT
+2023-09-21 03:01:10.741093: W tensorflow/compiler/tf2tensorrt/utils/py_utils.cc:38] TF-TRT Warning: Could not find TensorRT
+2023-09-21 03:01:14.209851: W tensorflow/core/common_runtime/gpu/gpu_bfc_allocator.cc:47] Overriding orig_value setting because the TF_FORCE_GPU_ALLOW_GROWTH environment variable is set. Original config value was 0.
+2023-09-21 03:01:14.210040: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1635] Created device /job:localhost/replica:0/task:0/device:GPU:0 with 9226 MB memory:  -> device: 0, name: NVIDIA GeForce RTX 2080 Ti, pci bus id: 0000:3e:00.0, compute capability: 7.5
+2023-09-21 03:01:14.216121: W tensorflow/core/common_runtime/gpu/gpu_bfc_allocator.cc:47] Overriding orig_value setting because the TF_FORCE_GPU_ALLOW_GROWTH environment variable is set. Original config value was 0.
+2023-09-21 03:01:14.216280: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1635] Created device /job:localhost/replica:0/task:0/device:GPU:0 with 9226 MB memory:  -> device: 0, name: NVIDIA GeForce RTX 2080 Ti, pci bus id: 0000:3e:00.0, compute capability: 7.5
+/home/wangxiao/tmp/miniconda3/envs/clarity5/lib/python3.9/site-packages/keras/initializers/initializers.py:120: UserWarning: The initializer GlorotNormal is unseeded and being called multiple times, which will return identical values each time (even if the initializer is unseeded). Please update your code to provide a seed to the initializer, or avoid using the same initalizer instance more than once.
+  warnings.warn(
+/home/wangxiao/tmp/miniconda3/envs/clarity5/lib/python3.9/site-packages/keras/initializers/initializers.py:120: UserWarning: The initializer GlorotNormal is unseeded and being called multiple times, which will return identical values each time (even if the initializer is unseeded). Please update your code to provide a seed to the initializer, or avoid using the same initalizer instance more than once.
+  warnings.warn(
+2023-09-21 03:01:16.053507: I tensorflow/core/common_runtime/executor.cc:1197] [/device:CPU:0] (DEBUG INFO) Executor start aborting (this does not indicate an error and you can ignore this message): INVALID_ARGUMENT: You must feed a value for placeholder tensor 'Placeholder/_0' with dtype string and shape [1]
+	 [[{{node Placeholder/_0}}]]
+2023-09-21 03:01:16.053510: I tensorflow/core/common_runtime/executor.cc:1197] [/device:CPU:0] (DEBUG INFO) Executor start aborting (this does not indicate an error and you can ignore this message): INVALID_ARGUMENT: You must feed a value for placeholder tensor 'Placeholder/_0' with dtype string and shape [1]
+	 [[{{node Placeholder/_0}}]]
+2023-09-21 03:01:16.053826: I tensorflow/core/common_runtime/executor.cc:1197] [/device:CPU:0] (DEBUG INFO) Executor start aborting (this does not indicate an error and you can ignore this message): INVALID_ARGUMENT: You must feed a value for placeholder tensor 'Placeholder/_0' with dtype string and shape [1]
+	 [[{{node Placeholder/_0}}]]
+2023-09-21 03:01:16.053866: I tensorflow/core/common_runtime/executor.cc:1197] [/device:CPU:0] (DEBUG INFO) Executor start aborting (this does not indicate an error and you can ignore this message): INVALID_ARGUMENT: You must feed a value for placeholder tensor 'Placeholder/_0' with dtype string and shape [1]
+	 [[{{node Placeholder/_0}}]]
+2023-09-21 03:01:20.016694: I tensorflow/compiler/xla/stream_executor/cuda/cuda_dnn.cc:424] Loaded cuDNN version 8902
+2023-09-21 03:01:20.018048: I tensorflow/compiler/xla/stream_executor/cuda/cuda_dnn.cc:424] Loaded cuDNN version 8902
+2023-09-21 03:01:21.232399: I tensorflow/tsl/platform/default/subprocess.cc:304] Start cannot spawn child process: No such file or directory
+2023-09-21 03:01:21.234400: I tensorflow/tsl/platform/default/subprocess.cc:304] Start cannot spawn child process: No such file or directory
+2023-09-21 03:01:23.327619: I tensorflow/core/common_runtime/executor.cc:1197] [/device:CPU:0] (DEBUG INFO) Executor start aborting (this does not indicate an error and you can ignore this message): INVALID_ARGUMENT: You must feed a value for placeholder tensor 'Placeholder/_0' with dtype string and shape [1]
+	 [[{{node Placeholder/_0}}]]
+2023-09-21 03:01:23.327619: I tensorflow/core/common_runtime/executor.cc:1197] [/device:CPU:0] (DEBUG INFO) Executor start aborting (this does not indicate an error and you can ignore this message): INVALID_ARGUMENT: You must feed a value for placeholder tensor 'Placeholder/_0' with dtype string and shape [1]
+	 [[{{node Placeholder/_0}}]]
+2023-09-21 03:01:23.327902: I tensorflow/core/common_runtime/executor.cc:1197] [/device:CPU:0] (DEBUG INFO) Executor start aborting (this does not indicate an error and you can ignore this message): INVALID_ARGUMENT: You must feed a value for placeholder tensor 'Placeholder/_0' with dtype string and shape [1]
+	 [[{{node Placeholder/_0}}]]
+2023-09-21 03:01:23.328091: I tensorflow/core/common_runtime/executor.cc:1197] [/device:CPU:0] (DEBUG INFO) Executor start aborting (this does not indicate an error and you can ignore this message): INVALID_ARGUMENT: You must feed a value for placeholder tensor 'Placeholder/_0' with dtype string and shape [1]
+	 [[{{node Placeholder/_0}}]]
+Namespace(topology='Double_attention', mode='evaluate_test', model_mode='front_fusion', GPU=False, learning_rate=0.001, model_dir='./models', data_dir='./data', sample_rate=8000, causal=True, max_epoch=3, batch_size=2, skip=True, duration=4, compress=1, n_filters=64, n_residual_layers=1, ratios=[4, 4, 2], dilation_rate=2, kernel_size=3, last_kernel_size=3, residual_kernel_size=3, true_skip=False, padding='same', N=64, L=16, B=64, H=64, S=512, P=128, X=2, R=2)
+trained model loaded
+
+Evaluateing model... 
+
+Mean SI-SDR: -10.58 dB
+
+Writing predictions to audio...
+
+Namespace(topology='Double_attention', mode='evaluate_test', model_mode='front_fusion', GPU=False, learning_rate=0.001, model_dir='./models', data_dir='./data', sample_rate=8000, causal=True, max_epoch=3, batch_size=2, skip=True, duration=4, compress=1, n_filters=64, n_residual_layers=1, ratios=[4, 4, 2], dilation_rate=2, kernel_size=3, last_kernel_size=3, residual_kernel_size=3, true_skip=False, padding='same', N=64, L=16, B=64, H=64, S=512, P=128, X=2, R=2)
+trained model loaded
+
+Evaluateing model... 
+
+Mean SI-SDR: -10.58 dB
+
+Writing predictions to audio...
+
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:03,  1.18it/s] 40%|████      | 2/5 [00:01<00:02,  1.36it/s] 60%|██████    | 3/5 [00:02<00:01,  1.24it/s] 80%|████████  | 4/5 [00:02<00:00,  1.42it/s]100%|██████████| 5/5 [00:03<00:00,  1.45it/s]100%|██████████| 5/5 [00:05<00:00,  1.02s/it]
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:03,  1.18it/s] 40%|████      | 2/5 [00:01<00:02,  1.36it/s] 60%|██████    | 3/5 [00:02<00:01,  1.24it/s] 80%|████████  | 4/5 [00:02<00:00,  1.42it/s]100%|██████████| 5/5 [00:03<00:00,  1.43it/s]100%|██████████| 5/5 [00:05<00:00,  1.02s/it]
+2023-09-21 03:01:29.490835: I tensorflow/core/common_runtime/executor.cc:1197] [/device:CPU:0] (DEBUG INFO) Executor start aborting (this does not indicate an error and you can ignore this message): INVALID_ARGUMENT: You must feed a value for placeholder tensor 'Placeholder/_0' with dtype string and shape [1]
+	 [[{{node Placeholder/_0}}]]
+2023-09-21 03:01:29.490835: I tensorflow/core/common_runtime/executor.cc:1197] [/device:CPU:0] (DEBUG INFO) Executor start aborting (this does not indicate an error and you can ignore this message): INVALID_ARGUMENT: You must feed a value for placeholder tensor 'Placeholder/_0' with dtype string and shape [1]
+	 [[{{node Placeholder/_0}}]]
+2023-09-21 03:01:29.491113: I tensorflow/core/common_runtime/executor.cc:1197] [/device:CPU:0] (DEBUG INFO) Executor start aborting (this does not indicate an error and you can ignore this message): INVALID_ARGUMENT: You must feed a value for placeholder tensor 'Placeholder/_0' with dtype string and shape [1]
+	 [[{{node Placeholder/_0}}]]
+2023-09-21 03:01:29.491317: I tensorflow/core/common_runtime/executor.cc:1197] [/device:CPU:0] (DEBUG INFO) Executor start aborting (this does not indicate an error and you can ignore this message): INVALID_ARGUMENT: You must feed a value for placeholder tensor 'Placeholder/_0' with dtype string and shape [1]
+	 [[{{node Placeholder/_0}}]]
+2023-09-21 03:01:31.856961: I tensorflow/core/common_runtime/executor.cc:1197] [/device:CPU:0] (DEBUG INFO) Executor start aborting (this does not indicate an error and you can ignore this message): INVALID_ARGUMENT: You must feed a value for placeholder tensor 'Placeholder/_0' with dtype string and shape [1]
+	 [[{{node Placeholder/_0}}]]
+2023-09-21 03:01:31.856961: I tensorflow/core/common_runtime/executor.cc:1197] [/device:CPU:0] (DEBUG INFO) Executor start aborting (this does not indicate an error and you can ignore this message): INVALID_ARGUMENT: You must feed a value for placeholder tensor 'Placeholder/_0' with dtype string and shape [1]
+	 [[{{node Placeholder/_0}}]]
+2023-09-21 03:01:31.857235: I tensorflow/core/common_runtime/executor.cc:1197] [/device:CPU:0] (DEBUG INFO) Executor start aborting (this does not indicate an error and you can ignore this message): INVALID_ARGUMENT: You must feed a value for placeholder tensor 'Placeholder/_0' with dtype string and shape [1]
+	 [[{{node Placeholder/_0}}]]
+2023-09-21 03:01:31.857456: I tensorflow/core/common_runtime/executor.cc:1197] [/device:CPU:0] (DEBUG INFO) Executor start aborting (this does not indicate an error and you can ignore this message): INVALID_ARGUMENT: You must feed a value for placeholder tensor 'Placeholder/_0' with dtype string and shape [1]
+	 [[{{node Placeholder/_0}}]]
+
+Done!
+trained model loaded
+
+Evaluateing model... 
+
+Mean SI-SDR: -10.64 dB
+
+Writing predictions to audio...
+
+
+Done!
+trained model loaded
+
+Evaluateing model... 
+
+Mean SI-SDR: -10.64 dB
+
+Writing predictions to audio...
+
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:02,  1.41it/s] 40%|████      | 2/5 [00:01<00:01,  1.50it/s] 60%|██████    | 3/5 [00:02<00:01,  1.36it/s] 80%|████████  | 4/5 [00:02<00:00,  1.49it/s]100%|██████████| 5/5 [00:03<00:00,  1.54it/s]100%|██████████| 5/5 [00:05<00:00,  1.02s/it]
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:02,  1.41it/s] 40%|████      | 2/5 [00:01<00:01,  1.50it/s] 60%|██████    | 3/5 [00:02<00:01,  1.36it/s] 80%|████████  | 4/5 [00:02<00:00,  1.51it/s]100%|██████████| 5/5 [00:03<00:00,  1.56it/s]100%|██████████| 5/5 [00:05<00:00,  1.02s/it]
+2023-09-21 03:01:38.005131: I tensorflow/core/common_runtime/executor.cc:1197] [/device:CPU:0] (DEBUG INFO) Executor start aborting (this does not indicate an error and you can ignore this message): INVALID_ARGUMENT: You must feed a value for placeholder tensor 'Placeholder/_0' with dtype string and shape [1]
+	 [[{{node Placeholder/_0}}]]
+2023-09-21 03:01:38.005131: I tensorflow/core/common_runtime/executor.cc:1197] [/device:CPU:0] (DEBUG INFO) Executor start aborting (this does not indicate an error and you can ignore this message): INVALID_ARGUMENT: You must feed a value for placeholder tensor 'Placeholder/_0' with dtype string and shape [1]
+	 [[{{node Placeholder/_0}}]]
+2023-09-21 03:01:38.005405: I tensorflow/core/common_runtime/executor.cc:1197] [/device:CPU:0] (DEBUG INFO) Executor start aborting (this does not indicate an error and you can ignore this message): INVALID_ARGUMENT: You must feed a value for placeholder tensor 'Placeholder/_0' with dtype string and shape [1]
+	 [[{{node Placeholder/_0}}]]
+2023-09-21 03:01:38.005622: I tensorflow/core/common_runtime/executor.cc:1197] [/device:CPU:0] (DEBUG INFO) Executor start aborting (this does not indicate an error and you can ignore this message): INVALID_ARGUMENT: You must feed a value for placeholder tensor 'Placeholder/_0' with dtype string and shape [1]
+	 [[{{node Placeholder/_0}}]]
+2023-09-21 03:01:40.181910: I tensorflow/core/common_runtime/executor.cc:1197] [/device:CPU:0] (DEBUG INFO) Executor start aborting (this does not indicate an error and you can ignore this message): INVALID_ARGUMENT: You must feed a value for placeholder tensor 'Placeholder/_0' with dtype string and shape [1]
+	 [[{{node Placeholder/_0}}]]
+2023-09-21 03:01:40.182137: I tensorflow/core/common_runtime/executor.cc:1197] [/device:CPU:0] (DEBUG INFO) Executor start aborting (this does not indicate an error and you can ignore this message): INVALID_ARGUMENT: You must feed a value for placeholder tensor 'Placeholder/_0' with dtype string and shape [1]
+	 [[{{node Placeholder/_0}}]]
+
+Done!
+trained model loaded
+
+Evaluateing model... 
+
+Mean SI-SDR: -11.35 dB
+
+Writing predictions to audio...
+
+2023-09-21 03:01:40.230702: I tensorflow/core/common_runtime/executor.cc:1197] [/device:CPU:0] (DEBUG INFO) Executor start aborting (this does not indicate an error and you can ignore this message): INVALID_ARGUMENT: You must feed a value for placeholder tensor 'Placeholder/_0' with dtype string and shape [1]
+	 [[{{node Placeholder/_0}}]]
+2023-09-21 03:01:40.231141: I tensorflow/core/common_runtime/executor.cc:1197] [/device:CPU:0] (DEBUG INFO) Executor start aborting (this does not indicate an error and you can ignore this message): INVALID_ARGUMENT: You must feed a value for placeholder tensor 'Placeholder/_0' with dtype string and shape [1]
+	 [[{{node Placeholder/_0}}]]
+
+Done!
+trained model loaded
+
+Evaluateing model... 
+
+Mean SI-SDR: -11.35 dB
+
+Writing predictions to audio...
+
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:02,  1.44it/s] 40%|████      | 2/5 [00:01<00:01,  1.54it/s] 60%|██████    | 3/5 [00:02<00:01,  1.38it/s] 80%|████████  | 4/5 [00:02<00:00,  1.55it/s]100%|██████████| 5/5 [00:03<00:00,  1.60it/s]100%|██████████| 5/5 [00:05<00:00,  1.02s/it]
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:02,  1.51it/s] 40%|████      | 2/5 [00:01<00:01,  1.56it/s] 60%|██████    | 3/5 [00:02<00:01,  1.40it/s] 80%|████████  | 4/5 [00:02<00:00,  1.56it/s]100%|██████████| 5/5 [00:03<00:00,  1.61it/s]100%|██████████| 5/5 [00:05<00:00,  1.02s/it]
+2023-09-21 03:01:46.285768: I tensorflow/core/common_runtime/executor.cc:1197] [/device:CPU:0] (DEBUG INFO) Executor start aborting (this does not indicate an error and you can ignore this message): INVALID_ARGUMENT: You must feed a value for placeholder tensor 'Placeholder/_0' with dtype string and shape [1]
+	 [[{{node Placeholder/_0}}]]
+2023-09-21 03:01:46.286208: I tensorflow/core/common_runtime/executor.cc:1197] [/device:CPU:0] (DEBUG INFO) Executor start aborting (this does not indicate an error and you can ignore this message): INVALID_ARGUMENT: You must feed a value for placeholder tensor 'Placeholder/_0' with dtype string and shape [1]
+	 [[{{node Placeholder/_0}}]]
+2023-09-21 03:01:46.350484: I tensorflow/core/common_runtime/executor.cc:1197] [/device:CPU:0] (DEBUG INFO) Executor start aborting (this does not indicate an error and you can ignore this message): INVALID_ARGUMENT: You must feed a value for placeholder tensor 'Placeholder/_0' with dtype string and shape [1]
+	 [[{{node Placeholder/_0}}]]
+2023-09-21 03:01:46.350890: I tensorflow/core/common_runtime/executor.cc:1197] [/device:CPU:0] (DEBUG INFO) Executor start aborting (this does not indicate an error and you can ignore this message): INVALID_ARGUMENT: You must feed a value for placeholder tensor 'Placeholder/_0' with dtype string and shape [1]
+	 [[{{node Placeholder/_0}}]]
+2023-09-21 03:01:48.387975: I tensorflow/core/common_runtime/executor.cc:1197] [/device:CPU:0] (DEBUG INFO) Executor start aborting (this does not indicate an error and you can ignore this message): INVALID_ARGUMENT: You must feed a value for placeholder tensor 'Placeholder/_0' with dtype string and shape [1]
+	 [[{{node Placeholder/_0}}]]
+2023-09-21 03:01:48.388216: I tensorflow/core/common_runtime/executor.cc:1197] [/device:CPU:0] (DEBUG INFO) Executor start aborting (this does not indicate an error and you can ignore this message): INVALID_ARGUMENT: You must feed a value for placeholder tensor 'Placeholder/_0' with dtype string and shape [1]
+	 [[{{node Placeholder/_0}}]]
+
+Done!
+trained model loaded
+
+Evaluateing model... 
+
+Mean SI-SDR: -10.45 dB
+
+Writing predictions to audio...
+
+2023-09-21 03:01:48.458649: I tensorflow/core/common_runtime/executor.cc:1197] [/device:CPU:0] (DEBUG INFO) Executor start aborting (this does not indicate an error and you can ignore this message): INVALID_ARGUMENT: You must feed a value for placeholder tensor 'Placeholder/_0' with dtype string and shape [1]
+	 [[{{node Placeholder/_0}}]]
+2023-09-21 03:01:48.459111: I tensorflow/core/common_runtime/executor.cc:1197] [/device:CPU:0] (DEBUG INFO) Executor start aborting (this does not indicate an error and you can ignore this message): INVALID_ARGUMENT: You must feed a value for placeholder tensor 'Placeholder/_0' with dtype string and shape [1]
+	 [[{{node Placeholder/_0}}]]
+
+Done!
+trained model loaded
+
+Evaluateing model... 
+
+Mean SI-SDR: -10.45 dB
+
+Writing predictions to audio...
+
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:02,  1.44it/s] 40%|████      | 2/5 [00:01<00:01,  1.56it/s] 60%|██████    | 3/5 [00:02<00:01,  1.40it/s] 80%|████████  | 4/5 [00:02<00:00,  1.56it/s]100%|██████████| 5/5 [00:03<00:00,  1.59it/s]100%|██████████| 5/5 [00:05<00:00,  1.02s/it]
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:02,  1.52it/s] 40%|████      | 2/5 [00:01<00:01,  1.59it/s] 60%|██████    | 3/5 [00:02<00:01,  1.42it/s] 80%|████████  | 4/5 [00:02<00:00,  1.57it/s]100%|██████████| 5/5 [00:03<00:00,  1.61it/s]100%|██████████| 5/5 [00:05<00:00,  1.02s/it]
+2023-09-21 03:01:54.475361: I tensorflow/core/common_runtime/executor.cc:1197] [/device:CPU:0] (DEBUG INFO) Executor start aborting (this does not indicate an error and you can ignore this message): INVALID_ARGUMENT: You must feed a value for placeholder tensor 'Placeholder/_0' with dtype string and shape [1]
+	 [[{{node Placeholder/_0}}]]
+2023-09-21 03:01:54.475794: I tensorflow/core/common_runtime/executor.cc:1197] [/device:CPU:0] (DEBUG INFO) Executor start aborting (this does not indicate an error and you can ignore this message): INVALID_ARGUMENT: You must feed a value for placeholder tensor 'Placeholder/_0' with dtype string and shape [1]
+	 [[{{node Placeholder/_0}}]]
+2023-09-21 03:01:54.588974: I tensorflow/core/common_runtime/executor.cc:1197] [/device:CPU:0] (DEBUG INFO) Executor start aborting (this does not indicate an error and you can ignore this message): INVALID_ARGUMENT: You must feed a value for placeholder tensor 'Placeholder/_0' with dtype string and shape [1]
+	 [[{{node Placeholder/_0}}]]
+2023-09-21 03:01:54.589434: I tensorflow/core/common_runtime/executor.cc:1197] [/device:CPU:0] (DEBUG INFO) Executor start aborting (this does not indicate an error and you can ignore this message): INVALID_ARGUMENT: You must feed a value for placeholder tensor 'Placeholder/_0' with dtype string and shape [1]
+	 [[{{node Placeholder/_0}}]]
+2023-09-21 03:01:56.913317: I tensorflow/core/common_runtime/executor.cc:1197] [/device:CPU:0] (DEBUG INFO) Executor start aborting (this does not indicate an error and you can ignore this message): INVALID_ARGUMENT: You must feed a value for placeholder tensor 'Placeholder/_0' with dtype string and shape [1]
+	 [[{{node Placeholder/_0}}]]
+2023-09-21 03:01:56.913544: I tensorflow/core/common_runtime/executor.cc:1197] [/device:CPU:0] (DEBUG INFO) Executor start aborting (this does not indicate an error and you can ignore this message): INVALID_ARGUMENT: You must feed a value for placeholder tensor 'Placeholder/_0' with dtype string and shape [1]
+	 [[{{node Placeholder/_0}}]]
+
+Done!
+trained model loaded
+
+Evaluateing model... 
+
+Mean SI-SDR: -10.61 dB
+
+Writing predictions to audio...
+
+2023-09-21 03:01:57.018228: I tensorflow/core/common_runtime/executor.cc:1197] [/device:CPU:0] (DEBUG INFO) Executor start aborting (this does not indicate an error and you can ignore this message): INVALID_ARGUMENT: You must feed a value for placeholder tensor 'Placeholder/_0' with dtype string and shape [1]
+	 [[{{node Placeholder/_0}}]]
+2023-09-21 03:01:57.018702: I tensorflow/core/common_runtime/executor.cc:1197] [/device:CPU:0] (DEBUG INFO) Executor start aborting (this does not indicate an error and you can ignore this message): INVALID_ARGUMENT: You must feed a value for placeholder tensor 'Placeholder/_0' with dtype string and shape [1]
+	 [[{{node Placeholder/_0}}]]
+
+Done!
+trained model loaded
+
+Evaluateing model... 
+
+Mean SI-SDR: -10.61 dB
+
+Writing predictions to audio...
+
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:02,  1.54it/s] 40%|████      | 2/5 [00:01<00:01,  1.65it/s] 60%|██████    | 3/5 [00:02<00:01,  1.45it/s] 80%|████████  | 4/5 [00:02<00:00,  1.64it/s]100%|██████████| 5/5 [00:03<00:00,  1.69it/s]100%|██████████| 5/5 [00:05<00:00,  1.02s/it]
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:02,  1.59it/s] 40%|████      | 2/5 [00:01<00:01,  1.64it/s] 60%|██████    | 3/5 [00:01<00:01,  1.48it/s] 80%|████████  | 4/5 [00:02<00:00,  1.65it/s]100%|██████████| 5/5 [00:03<00:00,  1.73it/s]100%|██████████| 5/5 [00:05<00:00,  1.02s/it]
+2023-09-21 03:02:02.945741: I tensorflow/core/common_runtime/executor.cc:1197] [/device:CPU:0] (DEBUG INFO) Executor start aborting (this does not indicate an error and you can ignore this message): INVALID_ARGUMENT: You must feed a value for placeholder tensor 'Placeholder/_0' with dtype string and shape [1]
+	 [[{{node Placeholder/_0}}]]
+2023-09-21 03:02:02.946123: I tensorflow/core/common_runtime/executor.cc:1197] [/device:CPU:0] (DEBUG INFO) Executor start aborting (this does not indicate an error and you can ignore this message): INVALID_ARGUMENT: You must feed a value for placeholder tensor 'Placeholder/_0' with dtype string and shape [1]
+	 [[{{node Placeholder/_0}}]]
+2023-09-21 03:02:03.118989: I tensorflow/core/common_runtime/executor.cc:1197] [/device:CPU:0] (DEBUG INFO) Executor start aborting (this does not indicate an error and you can ignore this message): INVALID_ARGUMENT: You must feed a value for placeholder tensor 'Placeholder/_0' with dtype string and shape [1]
+	 [[{{node Placeholder/_0}}]]
+2023-09-21 03:02:03.119443: I tensorflow/core/common_runtime/executor.cc:1197] [/device:CPU:0] (DEBUG INFO) Executor start aborting (this does not indicate an error and you can ignore this message): INVALID_ARGUMENT: You must feed a value for placeholder tensor 'Placeholder/_0' with dtype string and shape [1]
+	 [[{{node Placeholder/_0}}]]
+2023-09-21 03:02:05.054041: I tensorflow/core/common_runtime/executor.cc:1197] [/device:CPU:0] (DEBUG INFO) Executor start aborting (this does not indicate an error and you can ignore this message): INVALID_ARGUMENT: You must feed a value for placeholder tensor 'Placeholder/_0' with dtype string and shape [1]
+	 [[{{node Placeholder/_0}}]]
+2023-09-21 03:02:05.054427: I tensorflow/core/common_runtime/executor.cc:1197] [/device:CPU:0] (DEBUG INFO) Executor start aborting (this does not indicate an error and you can ignore this message): INVALID_ARGUMENT: You must feed a value for placeholder tensor 'Placeholder/_0' with dtype string and shape [1]
+	 [[{{node Placeholder/_0}}]]
+
+Done!
+trained model loaded
+
+Evaluateing model... 
+
+Mean SI-SDR: -10.71 dB
+
+Writing predictions to audio...
+
+2023-09-21 03:02:05.176731: I tensorflow/core/common_runtime/executor.cc:1197] [/device:CPU:0] (DEBUG INFO) Executor start aborting (this does not indicate an error and you can ignore this message): INVALID_ARGUMENT: You must feed a value for placeholder tensor 'Placeholder/_0' with dtype string and shape [1]
+	 [[{{node Placeholder/_0}}]]
+2023-09-21 03:02:05.177180: I tensorflow/core/common_runtime/executor.cc:1197] [/device:CPU:0] (DEBUG INFO) Executor start aborting (this does not indicate an error and you can ignore this message): INVALID_ARGUMENT: You must feed a value for placeholder tensor 'Placeholder/_0' with dtype string and shape [1]
+	 [[{{node Placeholder/_0}}]]
+
+Done!
+trained model loaded
+
+Evaluateing model... 
+
+Mean SI-SDR: -10.71 dB
+
+Writing predictions to audio...
+
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:02,  1.57it/s] 40%|████      | 2/5 [00:01<00:01,  1.69it/s] 60%|██████    | 3/5 [00:01<00:01,  1.49it/s] 80%|████████  | 4/5 [00:02<00:00,  1.67it/s]100%|██████████| 5/5 [00:03<00:00,  1.71it/s]100%|██████████| 5/5 [00:05<00:00,  1.02s/it]
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:02,  1.64it/s] 40%|████      | 2/5 [00:01<00:01,  1.68it/s] 60%|██████    | 3/5 [00:01<00:01,  1.51it/s] 80%|████████  | 4/5 [00:02<00:00,  1.66it/s]100%|██████████| 5/5 [00:02<00:00,  1.74it/s]100%|██████████| 5/5 [00:05<00:00,  1.02s/it]
+2023-09-21 03:02:11.120239: I tensorflow/core/common_runtime/executor.cc:1197] [/device:CPU:0] (DEBUG INFO) Executor start aborting (this does not indicate an error and you can ignore this message): INVALID_ARGUMENT: You must feed a value for placeholder tensor 'Placeholder/_0' with dtype string and shape [1]
+	 [[{{node Placeholder/_0}}]]
+2023-09-21 03:02:11.120658: I tensorflow/core/common_runtime/executor.cc:1197] [/device:CPU:0] (DEBUG INFO) Executor start aborting (this does not indicate an error and you can ignore this message): INVALID_ARGUMENT: You must feed a value for placeholder tensor 'Placeholder/_0' with dtype string and shape [1]
+	 [[{{node Placeholder/_0}}]]
+2023-09-21 03:02:11.290974: I tensorflow/core/common_runtime/executor.cc:1197] [/device:CPU:0] (DEBUG INFO) Executor start aborting (this does not indicate an error and you can ignore this message): INVALID_ARGUMENT: You must feed a value for placeholder tensor 'Placeholder/_0' with dtype string and shape [1]
+	 [[{{node Placeholder/_0}}]]
+2023-09-21 03:02:11.291421: I tensorflow/core/common_runtime/executor.cc:1197] [/device:CPU:0] (DEBUG INFO) Executor start aborting (this does not indicate an error and you can ignore this message): INVALID_ARGUMENT: You must feed a value for placeholder tensor 'Placeholder/_0' with dtype string and shape [1]
+	 [[{{node Placeholder/_0}}]]
+2023-09-21 03:02:13.213856: I tensorflow/core/common_runtime/executor.cc:1197] [/device:CPU:0] (DEBUG INFO) Executor start aborting (this does not indicate an error and you can ignore this message): INVALID_ARGUMENT: You must feed a value for placeholder tensor 'Placeholder/_0' with dtype string and shape [1]
+	 [[{{node Placeholder/_0}}]]
+2023-09-21 03:02:13.214255: I tensorflow/core/common_runtime/executor.cc:1197] [/device:CPU:0] (DEBUG INFO) Executor start aborting (this does not indicate an error and you can ignore this message): INVALID_ARGUMENT: You must feed a value for placeholder tensor 'Placeholder/_0' with dtype string and shape [1]
+	 [[{{node Placeholder/_0}}]]
+
+Done!
+trained model loaded
+
+Evaluateing model... 
+
+Mean SI-SDR: -11.57 dB
+
+Writing predictions to audio...
+
+2023-09-21 03:02:13.338243: I tensorflow/core/common_runtime/executor.cc:1197] [/device:CPU:0] (DEBUG INFO) Executor start aborting (this does not indicate an error and you can ignore this message): INVALID_ARGUMENT: You must feed a value for placeholder tensor 'Placeholder/_0' with dtype string and shape [1]
+	 [[{{node Placeholder/_0}}]]
+2023-09-21 03:02:13.338698: I tensorflow/core/common_runtime/executor.cc:1197] [/device:CPU:0] (DEBUG INFO) Executor start aborting (this does not indicate an error and you can ignore this message): INVALID_ARGUMENT: You must feed a value for placeholder tensor 'Placeholder/_0' with dtype string and shape [1]
+	 [[{{node Placeholder/_0}}]]
+
+Done!
+trained model loaded
+
+Evaluateing model... 
+
+Mean SI-SDR: -11.57 dB
+
+Writing predictions to audio...
+
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:02,  1.49it/s] 40%|████      | 2/5 [00:01<00:01,  1.61it/s] 60%|██████    | 3/5 [00:02<00:01,  1.41it/s] 80%|████████  | 4/5 [00:02<00:00,  1.60it/s]100%|██████████| 5/5 [00:03<00:00,  1.66it/s]100%|██████████| 5/5 [00:05<00:00,  1.02s/it]
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:02,  1.56it/s] 40%|████      | 2/5 [00:01<00:01,  1.61it/s] 60%|██████    | 3/5 [00:02<00:01,  1.43it/s] 80%|████████  | 4/5 [00:02<00:00,  1.61it/s]100%|██████████| 5/5 [00:03<00:00,  1.69it/s]100%|██████████| 5/5 [00:05<00:00,  1.02s/it]
+2023-09-21 03:02:19.266795: I tensorflow/core/common_runtime/executor.cc:1197] [/device:CPU:0] (DEBUG INFO) Executor start aborting (this does not indicate an error and you can ignore this message): INVALID_ARGUMENT: You must feed a value for placeholder tensor 'Placeholder/_0' with dtype string and shape [1]
+	 [[{{node Placeholder/_0}}]]
+2023-09-21 03:02:19.267205: I tensorflow/core/common_runtime/executor.cc:1197] [/device:CPU:0] (DEBUG INFO) Executor start aborting (this does not indicate an error and you can ignore this message): INVALID_ARGUMENT: You must feed a value for placeholder tensor 'Placeholder/_0' with dtype string and shape [1]
+	 [[{{node Placeholder/_0}}]]
+2023-09-21 03:02:19.421873: I tensorflow/core/common_runtime/executor.cc:1197] [/device:CPU:0] (DEBUG INFO) Executor start aborting (this does not indicate an error and you can ignore this message): INVALID_ARGUMENT: You must feed a value for placeholder tensor 'Placeholder/_0' with dtype string and shape [1]
+	 [[{{node Placeholder/_0}}]]
+2023-09-21 03:02:19.422317: I tensorflow/core/common_runtime/executor.cc:1197] [/device:CPU:0] (DEBUG INFO) Executor start aborting (this does not indicate an error and you can ignore this message): INVALID_ARGUMENT: You must feed a value for placeholder tensor 'Placeholder/_0' with dtype string and shape [1]
+	 [[{{node Placeholder/_0}}]]
+2023-09-21 03:02:21.766724: I tensorflow/core/common_runtime/executor.cc:1197] [/device:CPU:0] (DEBUG INFO) Executor start aborting (this does not indicate an error and you can ignore this message): INVALID_ARGUMENT: You must feed a value for placeholder tensor 'Placeholder/_0' with dtype string and shape [1]
+	 [[{{node Placeholder/_0}}]]
+2023-09-21 03:02:21.767109: I tensorflow/core/common_runtime/executor.cc:1197] [/device:CPU:0] (DEBUG INFO) Executor start aborting (this does not indicate an error and you can ignore this message): INVALID_ARGUMENT: You must feed a value for placeholder tensor 'Placeholder/_0' with dtype string and shape [1]
+	 [[{{node Placeholder/_0}}]]
+
+Done!
+trained model loaded
+
+Evaluateing model... 
+
+Mean SI-SDR: -10.60 dB
+
+Writing predictions to audio...
+
+2023-09-21 03:02:21.886737: I tensorflow/core/common_runtime/executor.cc:1197] [/device:CPU:0] (DEBUG INFO) Executor start aborting (this does not indicate an error and you can ignore this message): INVALID_ARGUMENT: You must feed a value for placeholder tensor 'Placeholder/_0' with dtype string and shape [1]
+	 [[{{node Placeholder/_0}}]]
+2023-09-21 03:02:21.887199: I tensorflow/core/common_runtime/executor.cc:1197] [/device:CPU:0] (DEBUG INFO) Executor start aborting (this does not indicate an error and you can ignore this message): INVALID_ARGUMENT: You must feed a value for placeholder tensor 'Placeholder/_0' with dtype string and shape [1]
+	 [[{{node Placeholder/_0}}]]
+
+Done!
+trained model loaded
+
+Evaluateing model... 
+
+Mean SI-SDR: -10.60 dB
+
+Writing predictions to audio...
+
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:02,  1.55it/s] 40%|████      | 2/5 [00:01<00:01,  1.66it/s] 60%|██████    | 3/5 [00:02<00:01,  1.46it/s] 80%|████████  | 4/5 [00:02<00:00,  1.64it/s]100%|██████████| 5/5 [00:03<00:00,  1.67it/s]100%|██████████| 5/5 [00:05<00:00,  1.02s/it]
+
+Done!
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:02,  1.59it/s] 40%|████      | 2/5 [00:01<00:01,  1.66it/s] 60%|██████    | 3/5 [00:01<00:01,  1.47it/s] 80%|████████  | 4/5 [00:02<00:00,  1.64it/s]100%|██████████| 5/5 [00:03<00:00,  1.71it/s]100%|██████████| 5/5 [00:05<00:00,  1.02s/it]
+
+Done!
