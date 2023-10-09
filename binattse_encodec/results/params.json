@@ -1,0 +1,23 @@
+{
+    "topology": "Double_attention",
+    "mode": "train",
+    "GPU": true,
+    "learning_rate": 0.001,
+    "model_dir": "./models",
+    "data_dir": "./data",
+    "sample_rate": 8000,
+    "causal": true,
+    "max_epoch": 3,
+    "batch_size": 2,
+    "skip": true,
+    "duration": 4,
+    "N": 64,
+    "L": 16,
+    "B": 64,
+    "H": 64,
+    "S": 512,
+    "P": 128,
+    "X": 2,
+    "R": 2,
+    "buffer_length": 1000000
+}
