@@ -164,8 +164,6 @@ These steps have **implicit prerequisites**: code expects trained weights, pre-g
 - **Training defaults differ from thesis settings:** review hyperparameters, epochs, random seeds, optimization steps, and checkpoint naming.
 - **Dataset coverage:** sample WAV/TFRecord files are not equivalent to all training, validation, and test data described in the thesis.
 - **Checkpoints:** evaluation and KW routines may require trained model weights that are not included in the repository.
-- **Deployment:** The thesis describes the EnCodec-enhanced model as very large (approximately 300 million parameters), highlighting an important obstacle to implant-side use. Actual hardware energy consumption, radio throughput, and clinical intelligibility were not verified.
-- **Licensing:** As of this README's preparation, the repository has no top-level `LICENSE` file; public visibility is not the same as an explicit software reuse license.
 
 ```
 
